@@ -618,8 +618,9 @@ function resetOtpInputs() {
 async function sendEmailOTP(email, code) {
     const apiKey = import.meta.env.VITE_RESEND_API_KEY;
     if (!apiKey) {
-        console.warn('⚠️ VITE_RESEND_API_KEY not set — skipping email send.');
-        return;
+        const error = new Error('VITE_RESEND_API_KEY environment variable is not set');
+        console.error('❌ Resend API: Missing API key:', error.message);
+        throw error;
     }
     
     console.log('📤 Resend API: Making request to send email to:', email);
@@ -633,16 +634,14 @@ async function sendEmailOTP(email, code) {
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                from: import.meta.env.VITE_RESEND_FROM || 'SpaceX HQ <onboarding@resend.dev>',
-                to: [email],
-                subject: 'Your SpaceX Portal verification code',
+                from: 'onboarding@resend.dev',
+                to: email,
+                subject: 'Your SpaceX Portal Access Code',
                 html: `
-                    <div style="font-family:'Inter',sans-serif;background:#050505;padding:40px;border-radius:16px;max-width:440px;margin:0 auto;">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/SpaceX_logo_black.svg"
-                             style="filter:brightness(0) invert(1);height:20px;margin-bottom:32px;" alt="SpaceX">
-                        <p style="color:#a1a1aa;font-size:13px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.07em;font-weight:700;">Verification Code</p>
-                        <p style="color:#ffffff;font-size:42px;font-family:'Courier New',monospace;font-weight:700;letter-spacing:0.2em;margin-bottom:24px;">${code}</p>
-                        <p style="color:#52525b;font-size:12px;line-height:1.6;">This code expires in <strong style="color:#a1a1aa;">10 minutes</strong>. Do not share it with anyone.</p>
+                    <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+                        <h1 style="font-size: 24px; margin-bottom: 20px;">Your SpaceX Portal Access Code</h1>
+                        <div style="font-size: 48px; font-weight: bold; letter-spacing: 10px; margin: 20px 0;">${code}</div>
+                        <p style="font-size: 14px; color: #666;">This code expires in 10 minutes.</p>
                     </div>
                 `
             })
@@ -653,7 +652,9 @@ async function sendEmailOTP(email, code) {
         console.log('📤 Resend API: Response data:', responseData);
         
         if (!response.ok) {
-            throw new Error(`Resend API error: ${response.status} - ${responseData.message || 'Unknown error'}`);
+            const errorMsg = `Resend API error: ${response.status} - ${responseData.message || 'Unknown error'}`;
+            console.error('❌ Resend API:', errorMsg);
+            throw new Error(errorMsg);
         }
         
         console.log('✅ Resend API: Email sent successfully');
