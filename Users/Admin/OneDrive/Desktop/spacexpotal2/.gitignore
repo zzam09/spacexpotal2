@@ -49,3 +49,82 @@ Thumbs.db
 .local/
 .vercel
 .env*.local
+
+# Parent directories and system files (CRITICAL)
+../../**
+../../../**
+../../../../**
+../../../../../../**
+../../../../../../../../**
+../../../../../../../../../../**
+
+# Windows system directories
+$Recycle.Bin/
+$SysReset/
+$WINRE_BACKUP_PARTITION.MARKER/
+3uTools9/
+Boot/
+DumpStack.log*
+Intel/
+Program Files/
+Program Files (x86)/
+ProgramData/
+Python*/
+QuickPanel/
+Recovery/
+Windows.old/
+Windows/
+appverifUI.dll
+composer/
+docker/
+etc/
+hiberfil.sys
+home/
+laragon/
+nul
+pagefile.sys
+playwright-auth-tool/
+root/
+swapfile.sys
+tmp/
+usr/
+vfcompat.dll
+
+# User profile directories
+AppData/
+Contacts/
+Desktop/
+Documents/
+Downloads/
+Favorites/
+IntelGraphicsProfiles/
+Links/
+Music/
+NTUSER.DAT*
+Pictures/
+Saved Games/
+Searches/
+Videos/
+
+# Temporary and cache files
+*.swp
+*.tmp
+.cache/
+.local/
+.history.swp
+.logseq/
+.mcp-auth/
+.node_repl_history/
+.npm/
+.ollama/
+.opencode/
+.playwright-mcp/
+.pm2/
+.ssh/
+.supabase/
+.tabby-client/
+.trae/
+.vscode/
+.windsurf/
+.with.swp/
+.wslconfig
